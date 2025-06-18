@@ -1,48 +1,116 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n Language Translator Node
 
-# n8n-nodes-starter
+A custom n8n node to easily translate text between various languages using the [Deep Translate API via RapidAPI](https://rapidapi.com/deep-translate-corp/api/deep-translate1/).
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+## ✨ Key Features
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+* **Simple Text Translation:** Translate any text from one language to another.
+* **Language Detection:** (If supported by the API) Handle automatic source language detection.
+* **Direct API Integration:** Seamlessly connects to the Deep Translate API via RapidAPI.
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+## 🚀 Installation
 
-## Prerequisites
+To use this node, you need to add it to your n8n instance.
 
-You need the following installed on your development machine:
+1.  **Navigate to your n8n custom nodes directory:**
+    Typically:
+    * For npm installations: `~/.n8n/custom`
+    * For Docker installations, you'll likely need to volume mount your custom nodes: `/files/custom_nodes` (inside the container) or a folder you've mapped for custom nodes.
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+2.  **Clone this repository:**
+    ```bash
+    git clone [https://github.com/YOUR_GITHUB_USERNAME/n8n-nodes-language-translator.git](https://github.com/saadsafi123/n8n-nodes-language-translator.git) n8n-nodes-language-translator
+    cd n8n-nodes-language-translator
+    ```
 
-## Using this starter
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+3.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+4.  **Build the node:**
+    ```bash
+    npm run build
+    ```
 
-## More information
+5.  **Link the node to n8n:**
+    ```bash
+    # In your node's project directory:
+    npm link
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+    # Now, go to n8n's custom modules directory (e.g., ~/.n8n/custom/):
+    cd YOUR_N8N_CUSTOM_NODES_DIRECTORY
+    npm link n8n-nodes-language-translator
+    ```
+    *(Replace `YOUR_N8N_CUSTOM_NODES_DIRECTORY` with the actual path from step 1)*
 
-## License
+6.  **Restart n8n:**
+    Restart your n8n instance for the new node to appear.
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+## 🔑 Credentials Setup
+
+This node requires a RapidAPI Key for the Deep Translate service.
+
+* **In n8n:** Go to `Credentials` -> `New Credential`.
+* **Search for:** `Deep Translate RapidAPI` (or similar name like `languageTranslatorApi` if you already created it, check your `credentials/languageTranslatorApi.credentials.ts` for the exact `displayName`).
+* **Provide:** Your `X-RapidAPI-Key` obtained from the [Deep Translate API page on RapidAPI](https://rapidapi.com/deep-translate-corp/api/deep-translate1/).
+
+## 🚀 Usage Example
+
+The "Language Translator" node focuses on simple text translation.
+
+#### **Translate Text**
+
+This example shows how to translate text from English to Spanish.
+
+* **Node:** Language Translator
+* **Resource:** `Text Translation`
+* **Operation:** `Translate`
+* **Parameters:**
+    * `Text to Translate`: `Hello, how are you today?`
+    * `Source Language`: `en`
+    * `Target Language`: `es`
+
+* **Expected Output:**
+    ```json
+    {
+      "translatedText": "Hola, ¿cómo estás hoy?",
+      "sourceText": "Hello, how are you today?",
+      "sourceLanguage": "en",
+      "targetLanguage": "es"
+    }
+    ```
+    *(Note: The `translatedText` and `sourceText` will depend on the actual Deep Translate API response.)*
+
+## ⚙️ Node Parameters
+
+Here's a summary of the parameters available in the node.
+
+| Parameter           | Display Name      | Type      | Description                                                    | Resource           | Operations |
+| :------------------ | :---------------- | :-------- | :------------------------------------------------------------- | :----------------- | :--------- |
+| `resource`          | Resource          | `options` | Select `Text Translation` to translate text.                   | `All`              | `All`      |
+| `operation`         | Operation         | `options` | Select `Translate` to perform the translation.                 | `Text Translation` | `Translate` |
+| `textToTranslate`   | Text to Translate | `string`  | The text you want to translate.                                | `Text Translation` | `Translate` |
+| `sourceLanguage`    | Source Language   | `string`  | The language code of the input text (e.g., `en`, `es`, `auto`).| `Text Translation` | `Translate` |
+| `targetLanguage`    | Target Language   | `string`  | The language code to translate the text into (e.g., `es`, `fr`).| `Text Translation` | `Translate` |
+
+## 🐛 Troubleshooting
+
+* **Node not appearing:**
+    * Ensure you have followed all `npm install`, `npm run build`, and `npm link` steps precisely.
+    * Verify your `package.json` `n8n` object correctly points to `dist/nodes/LanguageTranslator/LanguageTranslator.node.js` and your credentials file (e.g., `dist/credentials/LanguageTranslatorApi.credentials.js`).
+    * Check your n8n console logs for any errors during startup.
+* **Credential errors:**
+    * Verify your `X-RapidAPI-Key` is correct and active for the Deep Translate API.
+* **Translation failures:**
+    * Check your internet connection.
+    * Review the [Deep Translate API documentation](https://rapidapi.com/deep-translate-corp/api/deep-translate1/) for supported languages and any specific requirements.
+    * Review the API's rate limits and usage quotas on RapidAPI.
+
+---
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+*Generated for **n8n Language Translator Node** on June 18, 2025.*
