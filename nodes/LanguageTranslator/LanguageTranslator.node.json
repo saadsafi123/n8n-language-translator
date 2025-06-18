@@ -1,0 +1,20 @@
+{
+	"node": "n8n-nodes-base.LanguageTranslator",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Translation"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://rapidapi.com/deep-translate-corp/api/deep-translate1/"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://rapidapi.com/deep-translate-corp/api/deep-translate1/"
+			}
+		]
+	}
+}
